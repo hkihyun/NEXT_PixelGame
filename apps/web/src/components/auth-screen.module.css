@@ -1,0 +1,224 @@
+.page {
+  padding: 14px 0 88px;
+}
+
+.shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(360px, 0.9fr);
+  gap: 18px;
+}
+
+.heroPanel,
+.formPanel {
+  min-height: 720px;
+  border-radius: 40px;
+  overflow: hidden;
+  box-shadow: var(--shadow-xl);
+}
+
+.heroPanel {
+  display: grid;
+  align-content: space-between;
+  gap: 24px;
+  padding: 40px;
+  color: white;
+  background:
+    radial-gradient(circle at top left, rgba(91, 167, 255, 0.28), transparent 28%),
+    radial-gradient(circle at 82% 18%, rgba(255, 255, 255, 0.12), transparent 18%),
+    linear-gradient(160deg, #0f172a 0%, #183b72 52%, #2b7bff 100%);
+}
+
+.heroPanel h1 {
+  max-width: 11ch;
+  font-size: clamp(2.4rem, 4.4vw, 4.8rem);
+  line-height: 0.96;
+  letter-spacing: -0.05em;
+}
+
+.heroPanel p {
+  max-width: 56ch;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.72;
+}
+
+.providerRow,
+.bottomLinks,
+.formActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.providerChip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  font-family: var(--font-ibm-plex-mono), monospace;
+  font-size: 0.76rem;
+  letter-spacing: 0.04em;
+}
+
+.heroGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.heroCard {
+  padding: 18px;
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.heroCard strong {
+  display: inline-block;
+  margin-bottom: 18px;
+  font-family: var(--font-ibm-plex-mono), monospace;
+  font-size: 1rem;
+}
+
+.heroCard p {
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.94rem;
+}
+
+.bottomLinks a {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.92rem;
+}
+
+.bottomLinks a:hover {
+  color: white;
+}
+
+.formPanel {
+  display: grid;
+  align-content: start;
+  gap: 24px;
+  padding: 34px;
+  background:
+    radial-gradient(circle at top right, rgba(91, 167, 255, 0.14), transparent 24%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(244, 248, 255, 0.94));
+}
+
+.formIntro {
+  display: grid;
+  gap: 14px;
+}
+
+.formIntro h2 {
+  font-size: 2rem;
+  letter-spacing: -0.04em;
+}
+
+.formIntro p,
+.demoNotice p {
+  color: var(--muted);
+  line-height: 1.72;
+}
+
+.form {
+  display: grid;
+  gap: 18px;
+}
+
+.field {
+  display: grid;
+  gap: 10px;
+}
+
+.field > span {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.field input {
+  min-height: 52px;
+  padding: 0 18px;
+  border-radius: 18px;
+  border: 1px solid rgba(47, 82, 151, 0.12);
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.roleRow {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.roleChip {
+  display: grid;
+  gap: 6px;
+  padding: 16px;
+  border-radius: 22px;
+  border: 1px solid rgba(47, 82, 151, 0.1);
+  background: rgba(255, 255, 255, 0.78);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.roleChip:hover {
+  transform: translateY(-1px);
+  border-color: rgba(49, 130, 246, 0.18);
+}
+
+.roleChip strong {
+  font-size: 1rem;
+}
+
+.roleChip small {
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.roleChipActive {
+  border-color: rgba(49, 130, 246, 0.24);
+  box-shadow: 0 18px 32px rgba(49, 130, 246, 0.1);
+  background: rgba(49, 130, 246, 0.08);
+}
+
+.demoNotice {
+  padding: 18px;
+  border-radius: 24px;
+  background: rgba(15, 23, 42, 0.04);
+  border: 1px solid rgba(15, 23, 42, 0.06);
+}
+
+.demoNotice strong {
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+@media (max-width: 1120px) {
+  .shell,
+  .heroGrid,
+  .roleRow {
+    grid-template-columns: 1fr;
+  }
+
+  .heroPanel,
+  .formPanel {
+    min-height: auto;
+  }
+}
+
+@media (max-width: 760px) {
+  .page {
+    padding-bottom: 72px;
+  }
+
+  .heroPanel,
+  .formPanel {
+    padding: 22px;
+    border-radius: 30px;
+  }
+}

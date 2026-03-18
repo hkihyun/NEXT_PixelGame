@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono, Noto_Sans_KR } from "next/font/google";
 import "./globals.css";
+import { DemoAuthProvider } from "@/components/demo-auth-provider";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 
@@ -28,11 +29,13 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={`${notoSansKr.variable} ${ibmPlexMono.variable}`}>
-        <div className="site-frame">
-          <SiteHeader />
-          <main className="site-main">{children}</main>
-          <SiteFooter />
-        </div>
+        <DemoAuthProvider>
+          <div className="site-frame">
+            <SiteHeader />
+            <main className="site-main">{children}</main>
+            <SiteFooter />
+          </div>
+        </DemoAuthProvider>
       </body>
     </html>
   );

@@ -1,6 +1,23 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import styles from "./platform-pages.module.css";
+import { FollowButton } from "@/components/follow-button";
+import { FollowingOverview, PeopleDirectory } from "@/components/people-directory";
+import {
+  getFeaturedNewsPosts,
+  getJamBySlug,
+  getJamEvents,
+  getJamFeaturedGames,
+  getJamMetrics,
+  getNewsAuthors,
+  getNewsMetrics,
+  getNewsPosts,
+  getNewsRelatedGames,
+  type JamEvent,
+  type JamStatus,
+  type NewsKind,
+  type NewsPost,
+} from "@/lib/platform-community-data";
 import {
   adminTasks,
   collections,
@@ -9,6 +26,7 @@ import {
   getBrowseGames,
   getCollectionBySlug,
   getCollectionGames,
+  getCreatorDirectory,
   getCreatorBySlug,
   getCreatorStats,
   getCreators,
@@ -34,6 +52,7 @@ import {
   savedBuilds,
   searchGames,
   tagDefinitions,
+  currentUserSlug,
   type CreatorProfile,
   type CuratedCollection,
   type GameSort,
@@ -213,6 +232,50 @@ function CollectionCard({ collection }: { collection: CuratedCollection }) {
   );
 }
 
+function NewsFeedCard({ post }: { post: NewsPost }) {
+  const game = post.gameSlug ? getGameBySlug(post.gameSlug) : undefined;
+  const creator = getNewsAuthors(post);
+
+  return (
+    <Link className={styles.cardLink} href={post.href}>
+      <span className={styles.surface} style={{ background: post.accent }} />
+      <div className={styles.cardContent}>
+        <div className={styles.cardTop}>
+          <span className={styles.cardEyebrow}>{newsKindLabel(post.kind)}</span>
+          <span className={styles.cardMeta}>{formatCalendarDate(post.publishedAt)}</span>
+        </div>
+        <strong>{post.title}</strong>
+        <p>{post.summary}</p>
+        <div className={styles.metaList}>
+          {game ? <span>{game.title}</span> : null}
+          {creator ? <span>{creator.name}</span> : null}
+        </div>
+      </div>
+    </Link>
+  );
+}
+
+function JamCard({ jam }: { jam: JamEvent }) {
+  return (
+    <Link className={styles.cardLink} href={`/jams/${jam.slug}`}>
+      <span className={styles.surface} style={{ background: jam.accent }} />
+      <div className={styles.cardContent}>
+        <div className={styles.cardTop}>
+          <span className={styles.cardEyebrow}>{jamStatusLabel(jam.status)}</span>
+          <span className={styles.cardMeta}>{jam.host}</span>
+        </div>
+        <strong>{jam.title}</strong>
+        <p>{jam.summary}</p>
+        <div className={styles.metaList}>
+          <span>{jam.theme}</span>
+          <span>{formatCompact(jam.participants)} joined</span>
+          <span>{formatCompact(jam.submissions)} submissions</span>
+        </div>
+      </div>
+    </Link>
+  );
+}
+
 function GameList({
   games,
   includeStatus = false,
@@ -317,6 +380,40 @@ function sortLabel(sort: GameSort) {
     default:
       return "인기순";
   }
+}
+
+function newsKindLabel(kind: NewsKind) {
+  switch (kind) {
+    case "devlog":
+      return "Devlog";
+    case "release":
+      return "Release";
+    case "platform":
+    default:
+      return "Platform";
+  }
+}
+
+function jamStatusLabel(status: JamStatus) {
+  switch (status) {
+    case "open":
+      return "접수 중";
+    case "upcoming":
+      return "예정";
+    case "judging":
+      return "심사 중";
+    case "completed":
+    default:
+      return "종료";
+  }
+}
+
+function formatCalendarDate(value: string) {
+  return new Intl.DateTimeFormat("ko-KR", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  }).format(new Date(value));
 }
 
 export function DiscoveryHubPage({
@@ -726,6 +823,259 @@ export function TrendingPage() {
   );
 }
 
+export function NewsHubPage() {
+  const metrics = getNewsMetrics();
+  const featuredPosts = getFeaturedNewsPosts();
+  const devlogPosts = getNewsPosts("devlog");
+  const platformPosts = getNewsPosts("platform");
+  const relatedGames = getNewsRelatedGames().slice(0, 4);
+
+  return (
+    <div className={styles.page}>
+      <PageHero
+        eyebrow="News"
+        title="뉴스 / 업데이트 허브"
+        description="Steam의 News Hub와 itch.io의 Developer Logs처럼, 게임 업데이트와 플랫폼 공지를 한 축으로 묶는 재방문 표면입니다."
+        actions={
+          <>
+            <Link className="button button--primary" href="/jams">
+              진행 중인 게임잼
+            </Link>
+            <Link className="button button--ghost" href="/trending">
+              트렌딩 보기
+            </Link>
+          </>
+        }
+        aside={
+          <Card eyebrow="Why it matters" title="업데이트가 쌓일수록 플랫폼은 다시 방문할 이유를 갖습니다" meta="devlog / release / platform">
+            <div className={styles.metaList}>
+              <span>게임별 변경 이력</span>
+              <span>런칭 / 큐레이션 소식</span>
+              <span>플랫폼 운영 공지</span>
+            </div>
+          </Card>
+        }
+      />
+
+      <MetricStrip
+        items={[
+          { label: "총 포스트", value: `${metrics.total}` },
+          { label: "개발 로그", value: `${metrics.devlogs}` },
+          { label: "릴리스 소식", value: `${metrics.releases}` },
+          { label: "플랫폼 공지", value: `${metrics.platform}` },
+        ]}
+      />
+
+      <Section eyebrow="Featured" title="지금 주목할 업데이트" description="홈과 트렌딩에서 다시 끌어올 만한 핵심 소식을 먼저 노출합니다.">
+        <div className={styles.cardGrid}>
+          {featuredPosts.map((post) => (
+            <NewsFeedCard key={post.slug} post={post} />
+          ))}
+        </div>
+      </Section>
+
+      <Section eyebrow="Devlogs" title="최근 개발 로그" description="itch.io의 Developer Logs처럼 제작자 업데이트를 별도 피드로 볼 수 있게 구성했습니다.">
+        <div className={styles.cardGrid}>
+          {devlogPosts.map((post) => (
+            <NewsFeedCard key={post.slug} post={post} />
+          ))}
+        </div>
+      </Section>
+
+      <Section eyebrow="Platform" title="운영 / 기능 공지" description="도움말, 신고, 퍼블리시 흐름과 직접 연결되는 플랫폼 공지를 별도 묶음으로 보여 줍니다.">
+        <div className={styles.stack}>
+          {platformPosts.map((post) => (
+            <Card eyebrow={newsKindLabel(post.kind)} key={post.slug} meta={formatCalendarDate(post.publishedAt)} title={post.title}>
+              <p>{post.summary}</p>
+              <ul className={styles.bulletList}>
+                {post.highlights.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+              <div className={styles.linkList}>
+                <Link href={post.href}>바로 보기</Link>
+              </div>
+            </Card>
+          ))}
+        </div>
+      </Section>
+
+      <Section eyebrow="Updated Games" title="업데이트가 이어지는 게임" description="뉴스 허브가 다시 탐색으로 이어지도록 최근 소식이 붙은 게임을 연결합니다.">
+        <GameGrid games={relatedGames} />
+      </Section>
+    </div>
+  );
+}
+
+export function JamsPage() {
+  const metrics = getJamMetrics();
+  const activeJams = [...getJamEvents("open"), ...getJamEvents("judging")];
+  const upcomingJams = getJamEvents("upcoming");
+  const recentJams = getJamEvents("completed");
+  const featuredGames = Array.from(
+    new Map(
+      getJamEvents()
+        .flatMap((jam) => getJamFeaturedGames(jam))
+        .map((game) => [game.slug, game]),
+    ).values(),
+  ).slice(0, 4);
+
+  return (
+    <div className={styles.page}>
+      <PageHero
+        eyebrow="Jams"
+        title="게임잼 / 챌린지 허브"
+        description="itch.io의 Game Jams처럼 플랫폼 안에서 제작 이벤트를 열고, 제출작을 다시 발견으로 연결하는 구조를 추가했습니다."
+        actions={
+          <>
+            <Link className="button button--primary" href="/build">
+              새 잼용 게임 만들기
+            </Link>
+            <Link className="button button--ghost" href="/news">
+              업데이트 허브
+            </Link>
+          </>
+        }
+        aside={
+          <Card eyebrow="Community Loop" title="창작 이벤트는 제작자와 플레이어를 다시 묶습니다" meta="host / submit / feature">
+            <div className={styles.metaList}>
+              <span>진행 중 잼</span>
+              <span>예정 잼</span>
+              <span>제출작 큐레이션</span>
+            </div>
+          </Card>
+        }
+      />
+
+      <MetricStrip
+        items={[
+          { label: "총 게임잼", value: `${metrics.total}` },
+          { label: "현재 진행", value: `${metrics.open}` },
+          { label: "참가자", value: formatCompact(metrics.participants) },
+          { label: "제출작", value: formatCompact(metrics.submissions) },
+        ]}
+      />
+
+      <Section eyebrow="Active" title="지금 참가 가능한 잼" description="진행 중이거나 심사 중인 이벤트를 첫 화면에서 확인할 수 있게 두었습니다.">
+        <div className={styles.cardGrid}>
+          {activeJams.map((jam) => (
+            <JamCard key={jam.slug} jam={jam} />
+          ))}
+        </div>
+      </Section>
+
+      <Section eyebrow="Upcoming" title="곧 시작하는 잼" description="제작 일정을 미리 잡을 수 있도록 예정 이벤트를 별도 분리했습니다.">
+        <div className={styles.cardGrid}>
+          {upcomingJams.map((jam) => (
+            <JamCard key={jam.slug} jam={jam} />
+          ))}
+        </div>
+      </Section>
+
+      <Section eyebrow="Highlights" title="잼에서 주목받은 게임" description="이벤트가 끝난 뒤에도 제출작이 계속 발견되도록 대표 게임을 다시 노출합니다.">
+        <GameGrid games={featuredGames} />
+      </Section>
+
+      <Section eyebrow="Recently Wrapped" title="최근 종료된 잼" description="종료된 이벤트도 아카이브 성격으로 남겨 커뮤니티 히스토리를 만듭니다.">
+        <div className={styles.cardGrid}>
+          {recentJams.map((jam) => (
+            <JamCard key={jam.slug} jam={jam} />
+          ))}
+        </div>
+      </Section>
+    </div>
+  );
+}
+
+export function JamDetailPage({ slug }: { slug: string }) {
+  const jam = getJamBySlug(slug);
+
+  if (!jam) {
+    return <EmptyState message="게임잼 정보를 찾을 수 없습니다." />;
+  }
+
+  const featuredGames = getJamFeaturedGames(jam);
+  const resultLabel = jam.status === "completed" ? "큐레이션 정리 완료" : jam.status === "judging" ? "심사 중" : "결과 발표 예정";
+
+  return (
+    <div className={styles.page}>
+      <PageHero
+        eyebrow="Jam"
+        title={jam.title}
+        description={jam.summary}
+        actions={
+          <>
+            <Link className="button button--primary" href="/build">
+              이 테마로 만들기
+            </Link>
+            <Link className="button button--ghost" href="/jams">
+              전체 게임잼 보기
+            </Link>
+          </>
+        }
+        aside={
+          <Card eyebrow={jamStatusLabel(jam.status)} title={jam.theme} meta={`${formatCalendarDate(jam.startsAt)} - ${formatCalendarDate(jam.endsAt)}`}>
+            <p>{jam.prompt}</p>
+          </Card>
+        }
+      />
+
+      <MetricStrip
+        items={[
+          { label: "상태", value: jamStatusLabel(jam.status) },
+          { label: "참가자", value: formatCompact(jam.participants) },
+          { label: "제출작", value: formatCompact(jam.submissions) },
+          { label: "마감", value: formatCalendarDate(jam.endsAt) },
+        ]}
+      />
+
+      <Section eyebrow="Brief" title="호스트 메모 / 참여 규칙" description="잼 상세는 공지, 규칙, 결과가 한 화면에서 이어져야 합니다.">
+        <div className={styles.detailColumns}>
+          <Card eyebrow="Host note" title={jam.host} meta={jam.prize}>
+            <p>{jam.hostNote}</p>
+          </Card>
+          <Card eyebrow="Rules" title="참여 전에 확인할 것" meta={`${jam.rules.length} rules`}>
+            <ul className={styles.bulletList}>
+              {jam.rules.map((rule) => (
+                <li key={rule}>{rule}</li>
+              ))}
+            </ul>
+          </Card>
+        </div>
+      </Section>
+
+      <Section eyebrow="Schedule" title="진행 일정" description="접수, 마감, 결과 공개 타이밍을 요약해 보여 줍니다.">
+        <Timeline
+          items={[
+            {
+              title: "접수 시작",
+              body: jam.prompt,
+              meta: formatCalendarDate(jam.startsAt),
+              bullets: [jam.theme, `주최: ${jam.host}`, "빌드와 퍼블리시 흐름이 바로 이어집니다."],
+            },
+            {
+              title: "제출 마감",
+              body: "최종 빌드와 상세 페이지를 제출합니다.",
+              meta: formatCalendarDate(jam.endsAt),
+              bullets: [jam.prize, `${formatCompact(jam.participants)} creators joined`, `${formatCompact(jam.submissions)} submissions`],
+            },
+            {
+              title: "결과 정리",
+              body: "뉴스 허브와 컬렉션에 다시 연결됩니다.",
+              meta: resultLabel,
+              bullets: ["추천 슬롯 노출", "운영팀 큐레이션 메모", "트렌딩과 컬렉션 연동"],
+            },
+          ]}
+        />
+      </Section>
+
+      <Section eyebrow="Featured" title="대표 제출작" description="잼 상세에서 바로 플레이하거나 상세 페이지로 넘어갈 수 있게 연결했습니다.">
+        <GameGrid games={featuredGames} />
+      </Section>
+    </div>
+  );
+}
+
 export function GameDetailPage({ slug }: { slug: string }) {
   const game = getGameBySlug(slug);
 
@@ -988,9 +1338,7 @@ export function CreatorProfilePage({ slug }: { slug: string }) {
         description={creator.bio}
         actions={
           <>
-            <button className="button button--primary" type="button">
-              팔로우
-            </button>
+            <FollowButton creatorName={creator.name} creatorSlug={creator.slug} isSelf={creator.slug === currentUserSlug} />
             <Link className="button button--ghost" href={`/search?creator=${creator.slug}`}>
               제작자 검색 결과
             </Link>
@@ -998,6 +1346,17 @@ export function CreatorProfilePage({ slug }: { slug: string }) {
         }
         aside={
           <Card eyebrow={creator.role} title={creator.pinnedLine} meta={creator.location}>
+            <div className={styles.metaList}>
+              <span>팔로워 {formatCompact(creator.followers)}</span>
+              <span>팔로잉 {formatCompact(creator.following)}</span>
+            </div>
+            <div className={styles.tagRow}>
+              {creator.specialties.map((specialty) => (
+                <span className={styles.tag} key={specialty}>
+                  {specialty}
+                </span>
+              ))}
+            </div>
             <div className={styles.linkList}>
               {creator.links.map((link) => (
                 <Link href={link.href} key={link.href}>
@@ -1022,9 +1381,59 @@ export function CreatorProfilePage({ slug }: { slug: string }) {
   );
 }
 
+export function PeoplePage() {
+  const creators = getCreatorDirectory();
+  const totalFollowers = creators.reduce((sum, creator) => sum + creator.followers, 0);
+  const totalProjects = creators.reduce((sum, creator) => sum + creator.publicGameCount, 0);
+  const cityCount = new Set(creators.map((creator) => creator.location)).size;
+
+  return (
+    <div className={styles.page}>
+      <PageHero
+        eyebrow="People"
+        title="사람 찾기 / 팔로우"
+        description="Epic의 친구 찾기와 itch/Steam 계열의 creator discovery 표면을 참고해, 이름 검색과 팔로우/팔로잉 관리를 한곳에 묶었습니다."
+        actions={
+          <>
+            <Link className="button button--primary" href="/login?next=/people">
+              로그인하고 팔로우
+            </Link>
+            <Link className="button button--ghost" href="/me">
+              내 라이브러리
+            </Link>
+          </>
+        }
+        aside={
+          <Card eyebrow="Social Graph" title="플레이어와 제작자를 연결하는 사람 탐색 허브" meta="follow / following / discovery">
+            <div className={styles.metaList}>
+              <span>검색</span>
+              <span>추천</span>
+              <span>팔로잉</span>
+            </div>
+          </Card>
+        }
+      />
+
+      <MetricStrip
+        items={[
+          { label: "등록 크리에이터", value: `${creators.length}` },
+          { label: "공개 프로젝트", value: `${totalProjects}` },
+          { label: "팔로워 합계", value: formatCompact(totalFollowers) },
+          { label: "활동 도시", value: `${cityCount}` },
+        ]}
+      />
+
+      <Section eyebrow="Directory" title="사람 검색과 팔로우 관리" description="이름, 역할, 도시, 태그로 찾고 바로 팔로우 상태를 바꿀 수 있습니다.">
+        <PeopleDirectory currentUserSlug={currentUserSlug} entries={creators} />
+      </Section>
+    </div>
+  );
+}
+
 export function MePage() {
   const currentUser = getCurrentUser();
   const library = getLibraryData();
+  const creators = getCreatorDirectory();
 
   return (
     <div className={styles.page}>
@@ -1084,11 +1493,7 @@ export function MePage() {
       </Section>
 
       <Section eyebrow="Follows" title="팔로우 중인 제작자" description="창작자 생태계를 개인 공간과 연결합니다.">
-        <div className={styles.cardGrid}>
-          {library.followedCreators.map((creator) => (
-            <CreatorCard creator={creator} key={creator.slug} />
-          ))}
-        </div>
+        <FollowingOverview currentUserSlug={currentUserSlug} entries={creators} />
       </Section>
     </div>
   );
@@ -1369,6 +1774,7 @@ export function SettingsPage() {
     "프로필 수정",
     "비밀번호 / 계정 보안",
     "알림 설정",
+    "소셜 설정 / 팔로우 허용",
     "공개 범위",
     "계정 삭제",
     "제작자 정보 수정",

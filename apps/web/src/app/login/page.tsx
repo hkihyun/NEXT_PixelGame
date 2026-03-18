@@ -1,5 +1,13 @@
-import { LoginPage } from "@/components/platform-pages";
+import { AuthScreen } from "@/components/auth-screen";
 
-export default function LoginRoute() {
-  return <LoginPage />;
+interface LoginRouteProps {
+  searchParams: Promise<{
+    next?: string;
+  }>;
+}
+
+export default async function LoginRoute({ searchParams }: LoginRouteProps) {
+  const { next } = await searchParams;
+
+  return <AuthScreen mode="login" nextPath={next} />;
 }

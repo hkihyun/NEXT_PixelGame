@@ -1,14 +1,37 @@
-import Link from "next/link";
+"use client";
 
-const navItems = [
-  { href: "/", label: "Home" },
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { useDemoAuth } from "@/components/demo-auth-provider";
+
+const publicNavItems = [
   { href: "/games", label: "Browse" },
-  { href: "/search", label: "Search" },
-  { href: "/collections", label: "Collections" },
+  { href: "/trending", label: "Trending" },
+  { href: "/news", label: "News" },
+  { href: "/jams", label: "Jams" },
+  { href: "/people", label: "People" },
+];
+
+const accountNavItems = [
+  { href: "/me", label: "Library" },
   { href: "/dashboard/games", label: "Dashboard" },
 ];
 
 export function SiteHeader() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const { isAuthenticated, logout, session } = useDemoAuth();
+
+  function handleLogout() {
+    logout();
+    router.push("/login");
+    router.refresh();
+  }
+
+  const loginHref = `/login?next=${encodeURIComponent(pathname || "/me")}`;
+  const createHref = isAuthenticated ? "/build" : `/login?next=${encodeURIComponent("/build")}`;
+  const navItems = isAuthenticated ? [...publicNavItems, ...accountNavItems] : publicNavItems;
+
   return (
     <header className="site-header">
       <div className="shell site-header__inner">
@@ -24,9 +47,26 @@ export function SiteHeader() {
           ))}
         </nav>
         <div className="site-header__cta">
-          <Link className="button button--primary button--small" href="/build">
-            Create Game
-          </Link>
+          {isAuthenticated ? (
+            <>
+              <span className="site-header__user">{session?.displayName ?? "Demo user"}</span>
+              <button className="button button--ghost button--small" onClick={handleLogout} type="button">
+                Log out
+              </button>
+              <Link className="button button--primary button--small" href={createHref}>
+                Create Game
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link className="button button--ghost button--small" href="/signup">
+                Sign Up
+              </Link>
+              <Link className="button button--primary button--small" href={loginHref}>
+                Log In
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </header>

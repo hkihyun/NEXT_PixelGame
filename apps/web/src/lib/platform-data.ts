@@ -1,4 +1,5 @@
 import type { GameSpec, ThemeId } from "@pixel/contracts";
+import { defaultFollowingSlugs } from "@/lib/demo-auth";
 
 export type GameVisibility = "public" | "unlisted" | "draft";
 export type GameSort = "popular" | "latest" | "rating" | "plays";
@@ -63,10 +64,21 @@ export interface CreatorProfile {
   accent: string;
   pinnedLine: string;
   featuredGameSlug: string;
+  followers: number;
+  following: number;
+  specialties: string[];
   links: Array<{
     label: string;
     href: string;
   }>;
+}
+
+export interface CreatorDirectoryEntry extends CreatorProfile {
+  publicGameCount: number;
+  totalPlays: number;
+  featuredGameTitle: string;
+  updatedAt: string;
+  tags: string[];
 }
 
 export interface TagDefinition {
@@ -185,6 +197,9 @@ const creators: CreatorProfile[] = [
     accent: "linear-gradient(135deg, rgba(49, 130, 246, 0.24), rgba(91, 167, 255, 0.06))",
     pinnedLine: "짧게 시작해서 여러 번 다시 하게 만드는 템포를 설계합니다.",
     featuredGameSlug: "knight-in-the-cave",
+    followers: 18400,
+    following: 56,
+    specialties: ["pixel platformer", "speedrun hooks", "browser action"],
     links: [
       { label: "X", href: "https://example.com/aria-x" },
       { label: "YouTube", href: "https://example.com/aria-youtube" },
@@ -201,6 +216,9 @@ const creators: CreatorProfile[] = [
     accent: "linear-gradient(135deg, rgba(120, 204, 148, 0.26), rgba(255, 255, 255, 0.06))",
     pinnedLine: "첫 30초에 규칙이 이해되는 게임을 만듭니다.",
     featuredGameSlug: "forest-dash",
+    followers: 9200,
+    following: 41,
+    specialties: ["clean onboarding", "time attack", "system-first design"],
     links: [
       { label: "Portfolio", href: "https://example.com/minho" },
       { label: "Discord", href: "https://example.com/minho-discord" },
@@ -217,6 +235,9 @@ const creators: CreatorProfile[] = [
     accent: "linear-gradient(135deg, rgba(255, 171, 94, 0.28), rgba(17, 24, 39, 0.08))",
     pinnedLine: "플레이 전부터 기억에 남는 분위기를 쌓는 팀입니다.",
     featuredGameSlug: "haunted-signal",
+    followers: 12600,
+    following: 33,
+    specialties: ["mood-driven horror", "gif-ready scenes", "sound cues"],
     links: [
       { label: "TikTok", href: "https://example.com/yuna-tiktok" },
       { label: "Press Kit", href: "https://example.com/yuna-press" },
@@ -233,6 +254,9 @@ const creators: CreatorProfile[] = [
     accent: "linear-gradient(135deg, rgba(180, 143, 255, 0.22), rgba(66, 153, 225, 0.08))",
     pinnedLine: "협동 게임은 규칙보다 리액션이 먼저 읽혀야 한다고 믿습니다.",
     featuredGameSlug: "coop-constellation",
+    followers: 7600,
+    following: 29,
+    specialties: ["co-op puzzle", "party-friendly browser games", "co-stream play"],
     links: [
       { label: "Instagram", href: "https://example.com/studioduo-instagram" },
       { label: "Merch", href: "https://example.com/studioduo-shop" },
@@ -1423,6 +1447,30 @@ export function getCreatorStats(creatorSlug: string) {
   ];
 }
 
+export function getCreatorDirectory() {
+  return creators.map((creator) => {
+    const games = getGamesByCreator(creator.slug, { includeHidden: false });
+    const featuredGame = getGameBySlug(creator.featuredGameSlug);
+    const updatedAt =
+      [...games].sort((a, b) => toDateScore(b.updatedAt) - toDateScore(a.updatedAt))[0]?.updatedAt ?? "";
+    const tags = Array.from(
+      new Set([
+        ...creator.specialties,
+        ...games.flatMap((game) => [game.genreLabel, ...game.tags]),
+      ]),
+    ).slice(0, 5);
+
+    return {
+      ...creator,
+      publicGameCount: games.length,
+      totalPlays: sum(games.map((game) => game.plays)),
+      featuredGameTitle: featuredGame?.title ?? "-",
+      updatedAt,
+      tags,
+    } satisfies CreatorDirectoryEntry;
+  });
+}
+
 export function getLibraryData() {
   return {
     recentGames: ["neon-night-run", "haunted-signal", "forest-dash"]
@@ -1435,7 +1483,7 @@ export function getLibraryData() {
       .map((slug) => getGameBySlug(slug))
       .filter((game): game is PlatformGame => Boolean(game)),
     uploadedGames: getCurrentUserGames(),
-    followedCreators: ["minho-park", "yuna-studio"]
+    followedCreators: defaultFollowingSlugs
       .map((slug) => getCreatorBySlug(slug))
       .filter((creator): creator is CreatorProfile => Boolean(creator)),
     savedBuilds,

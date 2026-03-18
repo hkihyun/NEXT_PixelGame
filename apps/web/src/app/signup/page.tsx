@@ -1,5 +1,13 @@
-import { SignupPage } from "@/components/platform-pages";
+import { AuthScreen } from "@/components/auth-screen";
 
-export default function SignupRoute() {
-  return <SignupPage />;
+interface SignupRouteProps {
+  searchParams: Promise<{
+    next?: string;
+  }>;
+}
+
+export default async function SignupRoute({ searchParams }: SignupRouteProps) {
+  const { next } = await searchParams;
+
+  return <AuthScreen mode="signup" nextPath={next} />;
 }

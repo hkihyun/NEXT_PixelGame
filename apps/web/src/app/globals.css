@@ -179,7 +179,25 @@ a:focus-visible {
 }
 
 .site-header__cta {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 10px;
   justify-self: end;
+}
+
+.site-header__user {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: rgba(49, 130, 246, 0.08);
+  border: 1px solid rgba(49, 130, 246, 0.12);
+  color: var(--blue-strong);
+  font-family: var(--font-ibm-plex-mono), monospace;
+  font-size: 0.78rem;
 }
 
 .button {
@@ -429,6 +447,10 @@ a:focus-visible {
 
   .site-nav {
     flex-wrap: wrap;
+  }
+
+  .site-header__cta {
+    justify-self: start;
   }
 
   .site-main {
