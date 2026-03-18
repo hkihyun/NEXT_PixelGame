@@ -1,0 +1,506 @@
+.page {
+  display: grid;
+  gap: 36px;
+  padding: 8px 0 88px;
+}
+
+.hero {
+  animation: reveal-up 720ms ease both;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.04fr) minmax(360px, 0.96fr);
+  gap: 20px;
+  align-items: stretch;
+}
+
+.heroCopy,
+.heroVisual {
+  position: relative;
+  border-radius: 42px;
+  overflow: hidden;
+}
+
+.heroCopy {
+  display: grid;
+  gap: 18px;
+  align-content: center;
+  min-height: 680px;
+  padding: 56px;
+  background:
+    radial-gradient(circle at top left, rgba(91, 167, 255, 0.18), transparent 28%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(245, 249, 255, 0.92));
+  box-shadow: var(--shadow-xl);
+}
+
+.heroCopy h1 {
+  max-width: 10ch;
+  font-size: clamp(3.6rem, 8vw, 6.6rem);
+  line-height: 0.9;
+}
+
+.heroCopy p {
+  max-width: 56ch;
+  color: var(--muted);
+  font-size: 1.08rem;
+  line-height: 1.78;
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.heroStats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 12px;
+}
+
+.heroStats article {
+  padding: 18px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.86);
+  box-shadow: 0 16px 34px rgba(15, 23, 42, 0.06);
+}
+
+.heroStats strong {
+  display: block;
+  color: var(--blue);
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.heroStats span {
+  display: block;
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.heroVisual {
+  min-height: 680px;
+  padding: 36px;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(91, 167, 255, 0.22), transparent 28%),
+    linear-gradient(180deg, #eff6ff 0%, #e7f0ff 100%);
+  box-shadow: var(--shadow-lg);
+}
+
+.heroGlow {
+  position: absolute;
+  inset: 80px 40px auto auto;
+  width: 220px;
+  height: 220px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(49, 130, 246, 0.22), transparent 70%);
+  animation: float-slower 9s ease-in-out infinite;
+}
+
+.phoneMock {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 360px);
+  margin: 54px auto 0;
+  padding: 18px;
+  border-radius: 40px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(240, 246, 255, 0.94));
+  border: 1px solid rgba(255, 255, 255, 0.88);
+  box-shadow: var(--shadow-xl);
+  animation: float-slow 7.5s ease-in-out infinite;
+}
+
+.phoneTop,
+.previewChips {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.phoneLabel,
+.floatLabel,
+.routePath,
+.featuredHook,
+.exampleHook {
+  color: var(--blue);
+  font-family: var(--font-ibm-plex-mono), monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+}
+
+.phoneSummary {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.phoneSummary article,
+.routeVisualPanel {
+  padding: 16px 18px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.86);
+}
+
+.phoneSummary span,
+.routeVisualPanel span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.phoneSummary strong,
+.routeVisualPanel strong {
+  display: block;
+  margin-top: 8px;
+  font-size: 1rem;
+}
+
+.phonePreview {
+  margin-top: 18px;
+  padding: 18px;
+  border-radius: 28px;
+  background: linear-gradient(180deg, #0f172a 0%, #1d3459 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  animation: glow-shift 6s ease-in-out infinite;
+}
+
+.previewChips span {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.78rem;
+}
+
+.phonePixels {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.phonePixels span {
+  aspect-ratio: 1;
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.78), transparent 34%),
+    linear-gradient(135deg, rgba(91, 167, 255, 0.96), rgba(49, 130, 246, 0.26));
+  box-shadow: 0 16px 24px rgba(49, 130, 246, 0.12);
+}
+
+.floatCard {
+  position: absolute;
+  z-index: 2;
+  width: min(280px, calc(100% - 32px));
+  padding: 20px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.86);
+  box-shadow: var(--shadow-lg);
+}
+
+.floatCard strong {
+  display: block;
+  margin-top: 10px;
+  font-size: 1.1rem;
+  line-height: 1.28;
+}
+
+.floatCard p {
+  margin-top: 10px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.floatCardPrimary {
+  top: 112px;
+  left: 18px;
+  animation: float-slower 8.2s ease-in-out infinite;
+}
+
+.floatCardSecondary {
+  right: 20px;
+  bottom: 72px;
+  animation: float-slow 7.4s ease-in-out infinite;
+}
+
+.sectionHeading {
+  display: grid;
+  gap: 14px;
+  justify-items: center;
+  text-align: center;
+}
+
+.sectionHeading h2 {
+  max-width: 13ch;
+  font-size: clamp(2.5rem, 5vw, 4.8rem);
+  line-height: 0.94;
+}
+
+.sectionHeading p {
+  max-width: 760px;
+  color: var(--muted);
+  line-height: 1.76;
+}
+
+.valueSection {
+  display: grid;
+  gap: 24px;
+}
+
+.valueGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.valueCard {
+  padding: 28px;
+}
+
+.valueCard h3,
+.routeCopy h3,
+.exampleCard h3,
+.featuredVisual h3,
+.loopPanel h2,
+.principlePanel h2 {
+  font-size: clamp(1.5rem, 2vw, 2rem);
+  line-height: 1.12;
+}
+
+.valueCard p,
+.routeCopy p,
+.exampleCard p,
+.featuredVisual p,
+.loopList,
+.principleList p {
+  margin-top: 14px;
+  color: var(--muted);
+  line-height: 1.76;
+}
+
+.routeSection {
+  display: grid;
+  gap: 18px;
+}
+
+.routeCard {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.9fr);
+  gap: 18px;
+  padding: 28px;
+}
+
+.routeCopy {
+  display: grid;
+  align-content: center;
+}
+
+.routeTitle {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 0.96rem;
+}
+
+.routeCopy .button {
+  width: fit-content;
+  margin-top: 18px;
+}
+
+.routeVisual {
+  min-height: 260px;
+  padding: 20px;
+  border-radius: 28px;
+  display: grid;
+  align-items: end;
+  justify-items: end;
+}
+
+.routeVisualPanel {
+  min-width: 220px;
+  animation: float-slow 8s ease-in-out infinite;
+}
+
+.routeVisual1 {
+  background:
+    radial-gradient(circle at top right, rgba(49, 130, 246, 0.2), transparent 26%),
+    linear-gradient(180deg, #eff6ff 0%, #dcecff 100%);
+}
+
+.routeVisual2 {
+  background:
+    radial-gradient(circle at top right, rgba(49, 130, 246, 0.18), transparent 28%),
+    linear-gradient(180deg, #f4f9ff 0%, #e8f0ff 100%);
+}
+
+.routeVisual3 {
+  background:
+    radial-gradient(circle at top right, rgba(49, 130, 246, 0.22), transparent 28%),
+    linear-gradient(180deg, #0f172a 0%, #1f3a66 100%);
+}
+
+.routeVisual3 .routeVisualPanel {
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.routeVisual4 {
+  background:
+    radial-gradient(circle at top right, rgba(49, 130, 246, 0.16), transparent 30%),
+    linear-gradient(180deg, #ffffff 0%, #eef5ff 100%);
+}
+
+.gamesSection {
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(340px, 0.88fr);
+  gap: 18px;
+}
+
+.featuredVisual {
+  min-height: 620px;
+  padding: 38px;
+  border-radius: 40px;
+  color: white;
+  display: grid;
+  align-content: end;
+  animation: glow-shift 7s ease-in-out infinite;
+}
+
+.featuredVisual p {
+  max-width: 34ch;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.featuredVisual .button {
+  width: fit-content;
+  margin-top: 18px;
+}
+
+.exampleGrid {
+  display: grid;
+  gap: 18px;
+}
+
+.exampleCard {
+  padding: 24px;
+  display: grid;
+  gap: 18px;
+}
+
+.exampleSwatch {
+  min-height: 176px;
+  border-radius: 28px;
+  animation: float-slow 8.5s ease-in-out infinite;
+}
+
+.exampleCopy {
+  display: grid;
+  gap: 8px;
+}
+
+.bottomSection {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.loopPanel,
+.principlePanel {
+  padding: 30px;
+}
+
+.loopList {
+  margin-top: 18px;
+  padding-left: 18px;
+  display: grid;
+  gap: 12px;
+}
+
+.principleList {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.principleList article {
+  padding: 18px 20px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.84);
+  border: 1px solid rgba(255, 255, 255, 0.86);
+}
+
+.principleList strong {
+  font-size: 1rem;
+}
+
+@media (max-width: 1180px) {
+  .hero,
+  .routeCard,
+  .gamesSection,
+  .bottomSection {
+    grid-template-columns: 1fr;
+  }
+
+  .valueGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .heroCopy,
+  .heroVisual {
+    min-height: auto;
+  }
+
+  .heroVisual {
+    min-height: 620px;
+  }
+}
+
+@media (max-width: 760px) {
+  .page {
+    gap: 24px;
+    padding-bottom: 72px;
+  }
+
+  .heroCopy,
+  .heroVisual,
+  .valueCard,
+  .routeCard,
+  .loopPanel,
+  .principlePanel {
+    padding: 24px;
+  }
+
+  .heroCopy h1,
+  .sectionHeading h2 {
+    max-width: none;
+  }
+
+  .heroStats {
+    grid-template-columns: 1fr;
+  }
+
+  .heroVisual {
+    min-height: 560px;
+    padding: 24px;
+  }
+
+  .floatCard {
+    position: static;
+    width: 100%;
+    margin-top: 16px;
+  }
+
+  .featuredVisual {
+    min-height: 460px;
+    padding: 28px;
+  }
+}

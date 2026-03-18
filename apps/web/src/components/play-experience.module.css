@@ -1,0 +1,217 @@
+.page {
+  display: grid;
+  gap: 28px;
+  padding: 8px 0 88px;
+}
+
+.hero,
+.playGrid {
+  display: grid;
+  gap: 20px;
+}
+
+.hero {
+  grid-template-columns: minmax(0, 1.08fr) minmax(300px, 0.92fr);
+}
+
+.heroCopy,
+.heroCard,
+.stageCard,
+.infoCard {
+  padding: 28px;
+  animation: reveal-up 680ms ease both;
+}
+
+.heroCopy {
+  display: grid;
+  gap: 16px;
+  border-radius: 38px;
+  background:
+    radial-gradient(circle at top center, rgba(49, 130, 246, 0.16), transparent 28%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(242, 248, 255, 0.92));
+  color: var(--text);
+  box-shadow: var(--shadow-xl);
+}
+
+.heroCopy h1 {
+  font-size: clamp(3.2rem, 6vw, 5.6rem);
+  line-height: 0.92;
+}
+
+.heroCopy p {
+  max-width: 58ch;
+  color: var(--muted);
+  line-height: 1.78;
+}
+
+.metaRow,
+.actionRow,
+.hudRow,
+.actorStrip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.metaChip {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: rgba(49, 130, 246, 0.08);
+  border: 1px solid rgba(49, 130, 246, 0.12);
+  color: var(--blue);
+  font-size: 0.82rem;
+}
+
+.heroCard {
+  display: grid;
+  gap: 16px;
+  align-content: start;
+}
+
+.heroCard .status-pill {
+  background: var(--blue-soft);
+  border-color: rgba(0, 113, 227, 0.14);
+  color: var(--blue);
+}
+
+.heroCard strong {
+  font-size: 1.32rem;
+}
+
+.heroCard p {
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.playGrid {
+  grid-template-columns: minmax(0, 1.12fr) minmax(320px, 0.88fr);
+  align-items: start;
+}
+
+.stageCard {
+  min-height: 680px;
+}
+
+.stageSurface {
+  min-height: 100%;
+  border-radius: 34px;
+  padding: 24px;
+  color: white;
+  display: grid;
+  gap: 18px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 40px 90px rgba(49, 130, 246, 0.18);
+  animation: glow-shift 8s ease-in-out infinite;
+}
+
+.hudRow span,
+.actorStrip span {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.1);
+  font-family: var(--font-ibm-plex-mono), monospace;
+  font-size: 0.82rem;
+}
+
+.pixelField {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 12px;
+  margin: auto 0;
+}
+
+.pixelField span {
+  aspect-ratio: 1;
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.76), transparent 34%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.86), rgba(0, 113, 227, 0.26));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+.sideRail {
+  position: sticky;
+  top: 100px;
+  display: grid;
+  gap: 18px;
+}
+
+.infoCard {
+  display: grid;
+  gap: 16px;
+}
+
+.infoCard h2 {
+  font-size: 1.5rem;
+}
+
+.infoList {
+  display: grid;
+  gap: 12px;
+  padding-left: 18px;
+  color: var(--muted);
+  line-height: 1.72;
+}
+
+.specGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.specGrid article {
+  padding: 18px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.74);
+  border: 1px solid rgba(255, 255, 255, 0.72);
+}
+
+.specGrid span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.specGrid strong {
+  display: block;
+  margin-top: 8px;
+  font-size: 1rem;
+}
+
+@media (max-width: 1180px) {
+  .hero,
+  .playGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .sideRail {
+    position: static;
+  }
+}
+
+@media (max-width: 760px) {
+  .page {
+    padding-bottom: 72px;
+  }
+
+  .heroCopy,
+  .heroCard,
+  .stageCard,
+  .infoCard {
+    padding: 24px;
+  }
+
+  .specGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .actionRow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

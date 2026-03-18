@@ -1,0 +1,313 @@
+.page {
+  display: grid;
+  gap: 28px;
+  padding: 8px 0 88px;
+}
+
+.hero,
+.grid {
+  display: grid;
+  gap: 20px;
+}
+
+.hero {
+  grid-template-columns: minmax(0, 1.12fr) minmax(300px, 0.88fr);
+}
+
+.heroCopy,
+.heroCard,
+.formCard,
+.summaryCard,
+.resultCard {
+  padding: 28px;
+  animation: reveal-up 680ms ease both;
+}
+
+.heroCopy {
+  display: grid;
+  gap: 16px;
+  border-radius: 38px;
+  background:
+    radial-gradient(circle at top center, rgba(49, 130, 246, 0.16), transparent 28%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(242, 248, 255, 0.92));
+  color: var(--text);
+  box-shadow: var(--shadow-xl);
+}
+
+.heroCopy h1 {
+  max-width: 12ch;
+  font-size: clamp(3rem, 5vw, 5rem);
+  line-height: 0.94;
+}
+
+.heroCopy p,
+.heroCard p,
+.resultBody p {
+  line-height: 1.78;
+}
+
+.heroCopy p {
+  max-width: 58ch;
+  color: var(--muted);
+}
+
+.heroCard {
+  display: grid;
+  gap: 16px;
+  align-content: start;
+}
+
+.heroCard .status-pill {
+  background: var(--blue-soft);
+  border-color: rgba(0, 113, 227, 0.14);
+  color: var(--blue);
+}
+
+.heroCard strong {
+  font-size: 1.36rem;
+}
+
+.heroCard p,
+.resultBody p {
+  color: var(--muted);
+}
+
+.heroLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.grid {
+  grid-template-columns: minmax(0, 1.04fr) minmax(320px, 0.96fr);
+  align-items: start;
+}
+
+.formCard,
+.summaryCard,
+.resultCard {
+  display: grid;
+  gap: 18px;
+}
+
+.cardHeading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.cardHeading h2 {
+  margin-top: 12px;
+  font-size: 1.5rem;
+}
+
+.cardMeta {
+  color: var(--muted);
+  font-family: var(--font-ibm-plex-mono), monospace;
+  font-size: 0.82rem;
+}
+
+.field {
+  display: grid;
+  gap: 10px;
+}
+
+.field > span {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  padding: 16px 18px;
+  border-radius: 24px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(255, 255, 255, 0.88);
+}
+
+.textarea {
+  min-height: 152px;
+  resize: vertical;
+}
+
+.thumbnailGrid,
+.visibilityGrid,
+.summaryList {
+  display: grid;
+  gap: 12px;
+}
+
+.thumbnailGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.thumbnailButton,
+.visibilityCard,
+.summaryList article {
+  border-radius: 24px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.thumbnailButton {
+  min-height: 154px;
+  padding: 18px;
+  color: white;
+  display: grid;
+  align-content: end;
+  gap: 8px;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.thumbnailButton:hover {
+  transform: translateY(-1px);
+}
+
+.thumbnailButton strong {
+  font-size: 1rem;
+}
+
+.thumbnailButton span {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.84);
+}
+
+.thumbnailButtonActive {
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 255, 255, 0.88),
+    0 26px 42px rgba(49, 130, 246, 0.12);
+}
+
+.visibilityCard {
+  padding: 16px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.visibilityCard input {
+  margin-top: 3px;
+}
+
+.visibilityCard p {
+  margin-top: 6px;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.submitRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.submitRow p {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.sideRail {
+  position: sticky;
+  top: 100px;
+  display: grid;
+  gap: 18px;
+}
+
+.summaryList {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.summaryList article {
+  padding: 18px;
+}
+
+.summaryList span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.summaryList strong {
+  display: block;
+  margin-top: 8px;
+  font-size: 1rem;
+}
+
+.thumbnailPreview {
+  padding: 22px;
+  border-radius: 28px;
+  color: white;
+  display: grid;
+  gap: 12px;
+  animation: glow-shift 8s ease-in-out infinite;
+}
+
+.previewBadge {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.14);
+  font-size: 0.8rem;
+}
+
+.thumbnailPreview strong {
+  font-size: 1.24rem;
+}
+
+.thumbnailPreview p {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.resultBody {
+  display: grid;
+  gap: 12px;
+}
+
+@media (max-width: 1180px) {
+  .hero,
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sideRail {
+    position: static;
+  }
+}
+
+@media (max-width: 760px) {
+  .page {
+    padding-bottom: 72px;
+  }
+
+  .heroCopy,
+  .heroCard,
+  .formCard,
+  .summaryCard,
+  .resultCard {
+    padding: 24px;
+  }
+
+  .heroCopy h1 {
+    max-width: none;
+  }
+
+  .thumbnailGrid,
+  .summaryList {
+    grid-template-columns: 1fr;
+  }
+
+  .submitRow,
+  .cardHeading {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

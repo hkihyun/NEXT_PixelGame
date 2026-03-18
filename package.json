@@ -1,0 +1,10 @@
+{
+  "name": "pixel-game-builder-platform",
+  "private": true,
+  "packageManager": "pnpm@10.6.1",
+  "scripts": {
+    "dev": "pnpm --filter @pixel/web dev",
+    "build": "pnpm --filter @pixel/web build",
+    "lint": "pnpm --filter @pixel/web lint"
+  }
+}

@@ -1,0 +1,507 @@
+.page {
+  display: grid;
+  gap: 28px;
+  padding: 8px 0 88px;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+  gap: 18px;
+  align-items: stretch;
+}
+
+.heroCopy,
+.heroAside {
+  min-height: 320px;
+}
+
+.heroCopy {
+  display: grid;
+  align-content: center;
+  gap: 18px;
+  padding: 40px;
+  border-radius: 40px;
+  background:
+    radial-gradient(circle at top left, rgba(91, 167, 255, 0.16), transparent 28%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(244, 248, 255, 0.92));
+  box-shadow: var(--shadow-xl);
+}
+
+.heroCopy h1,
+.sectionHeader h2 {
+  font-size: clamp(2.2rem, 4.6vw, 4.4rem);
+  line-height: 0.95;
+}
+
+.heroCopy p,
+.sectionHeader p,
+.cardBody,
+.cardContent p,
+.emptyState p {
+  color: var(--muted);
+  line-height: 1.72;
+}
+
+.heroAside {
+  display: grid;
+}
+
+.heroActions,
+.actionButtonRow,
+.linkList,
+.chipRow,
+.tagRow,
+.metaList,
+.dashboardMeta,
+.warningList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.section {
+  display: grid;
+  gap: 18px;
+}
+
+.sectionHeader {
+  display: grid;
+  gap: 12px;
+}
+
+.metricStrip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.metricCard {
+  padding: 20px 22px;
+}
+
+.metricCard span,
+.cardEyebrow,
+.cardMeta,
+.tag,
+.chip,
+.statusBadge,
+.muted {
+  font-family: var(--font-ibm-plex-mono), monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+}
+
+.metricCard span,
+.cardMeta,
+.muted {
+  color: var(--muted);
+}
+
+.metricCard strong {
+  display: block;
+  margin-top: 12px;
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.panel,
+.cardLink,
+.notificationRow,
+.dashboardRow,
+.inlineItem,
+.formCard {
+  border-radius: var(--radius-xl);
+}
+
+.cardLink {
+  display: grid;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--surface-strong) 0%, var(--surface) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.86);
+  box-shadow: var(--shadow-lg);
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease;
+}
+
+.cardLink:hover {
+  transform: translateY(-3px);
+  border-color: rgba(49, 130, 246, 0.16);
+  box-shadow: 0 28px 70px rgba(15, 23, 42, 0.12);
+}
+
+.panel {
+  min-height: 100%;
+}
+
+.cardContent {
+  display: grid;
+  gap: 12px;
+  padding: 24px;
+}
+
+.cardTop {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.cardEyebrow {
+  color: var(--blue);
+}
+
+.cardContent strong,
+.cardBody strong,
+.inlineItem strong,
+.notificationRow strong {
+  font-size: 1.1rem;
+  line-height: 1.25;
+}
+
+.cardBody {
+  display: grid;
+  gap: 12px;
+}
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.gameVisual,
+.creatorBanner,
+.mediaSurface,
+.surface {
+  min-height: 170px;
+}
+
+.gameVisual,
+.mediaSurface {
+  position: relative;
+  padding: 24px;
+  color: white;
+  display: grid;
+  align-content: end;
+  gap: 8px;
+}
+
+.gameVisual span {
+  display: inline-flex;
+  width: fit-content;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  font-size: 0.8rem;
+}
+
+.gameVisual strong {
+  font-size: 1.4rem;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 10px;
+  border-radius: 999px;
+  background: rgba(49, 130, 246, 0.08);
+  border: 1px solid rgba(49, 130, 246, 0.12);
+}
+
+.tagRow {
+  margin-top: 2px;
+}
+
+.stack,
+.sideStack {
+  display: grid;
+  gap: 14px;
+}
+
+.stackCompact {
+  display: grid;
+  gap: 10px;
+}
+
+.inlineItem,
+.notificationRow,
+.dashboardRow,
+.formCard {
+  padding: 18px 20px;
+  background: rgba(255, 255, 255, 0.84);
+  border: 1px solid rgba(255, 255, 255, 0.86);
+  box-shadow: var(--shadow-md);
+}
+
+.inlineItem p,
+.notificationRow p {
+  color: var(--muted);
+}
+
+.timeline {
+  display: grid;
+  gap: 14px;
+}
+
+.timelineItem {
+  overflow: hidden;
+}
+
+.emptyState {
+  padding: 28px;
+  text-align: center;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(47, 82, 151, 0.08);
+  background: rgba(255, 255, 255, 0.84);
+}
+
+.chipActive {
+  background: rgba(49, 130, 246, 0.12);
+  border-color: rgba(49, 130, 246, 0.2);
+  color: var(--blue-strong);
+}
+
+.toolbar {
+  display: grid;
+  gap: 12px;
+}
+
+.tagCard {
+  position: relative;
+}
+
+.surface {
+  display: block;
+}
+
+.playSplit,
+.detailColumns {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.9fr);
+  gap: 16px;
+}
+
+.playStageCard {
+  padding: 24px;
+}
+
+.playStage {
+  min-height: 460px;
+  border-radius: 32px;
+  padding: 20px;
+  display: grid;
+  align-content: space-between;
+  gap: 18px;
+}
+
+.playHud,
+.actorRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.playHud span,
+.actorRow span {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  color: white;
+  font-family: var(--font-ibm-plex-mono), monospace;
+  font-size: 0.8rem;
+}
+
+.pixelGrid {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.pixelGrid span {
+  aspect-ratio: 1;
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.82), transparent 34%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0.08));
+}
+
+.metricMiniGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.metricMiniGrid article {
+  padding: 14px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.metricMiniGrid span {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.metricMiniGrid strong {
+  display: block;
+  margin-top: 8px;
+}
+
+.bulletList {
+  display: grid;
+  gap: 8px;
+  padding-left: 18px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.linkList a {
+  color: var(--blue-strong);
+}
+
+.dashboardRow {
+  display: grid;
+  gap: 12px;
+}
+
+.dashboardLead {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.dashboardLead span {
+  color: var(--muted);
+}
+
+.warningList span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: rgba(255, 152, 122, 0.12);
+  color: #9a4c37;
+  font-size: 0.8rem;
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 0 10px;
+  border-radius: 999px;
+}
+
+.statusPublic {
+  background: rgba(49, 130, 246, 0.12);
+  color: var(--blue-strong);
+}
+
+.statusUnlisted {
+  background: rgba(255, 196, 68, 0.16);
+  color: #9a6a00;
+}
+
+.statusDraft {
+  background: rgba(15, 23, 42, 0.08);
+  color: #475569;
+}
+
+.notificationRow {
+  display: grid;
+  gap: 8px;
+}
+
+.notificationRow span {
+  color: var(--muted);
+}
+
+.formCard {
+  display: grid;
+  gap: 14px;
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+}
+
+.field span {
+  font-size: 0.92rem;
+  color: var(--muted);
+}
+
+.field input {
+  min-height: 48px;
+  padding: 0 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(47, 82, 151, 0.08);
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.muted {
+  display: inline-block;
+}
+
+@media (max-width: 1180px) {
+  .hero,
+  .playSplit,
+  .detailColumns,
+  .cardGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .metricStrip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .page {
+    gap: 22px;
+    padding-bottom: 72px;
+  }
+
+  .heroCopy,
+  .playStageCard,
+  .cardContent,
+  .inlineItem,
+  .notificationRow,
+  .dashboardRow,
+  .formCard {
+    padding: 20px;
+  }
+
+  .heroCopy,
+  .heroAside {
+    min-height: auto;
+  }
+
+  .metricStrip,
+  .metricMiniGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .playStage {
+    min-height: 360px;
+  }
+
+  .pixelGrid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
