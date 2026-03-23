@@ -20,6 +20,9 @@
   --radius-xl: 36px;
   --radius-lg: 28px;
   --radius-md: 22px;
+  --shell-max-width: 1520px;
+  --shell-inline-gap: 32px;
+  --shell-inline-gap-mobile: 24px;
 }
 
 html,
@@ -109,7 +112,7 @@ a:focus-visible {
 }
 
 .shell {
-  width: min(1280px, calc(100% - 32px));
+  width: min(var(--shell-max-width), calc(100% - var(--shell-inline-gap)));
   margin: 0 auto;
 }
 
@@ -460,7 +463,7 @@ a:focus-visible {
 
 @media (max-width: 720px) {
   .shell {
-    width: min(100% - 24px, 1280px);
+    width: min(calc(100% - var(--shell-inline-gap-mobile)), var(--shell-max-width));
   }
 
   .site-header {
